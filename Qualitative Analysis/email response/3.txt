@@ -1,0 +1,2 @@
+The purpose of that commit is to avoid using java streams in performance critical code paths.
+Lamdas were removed as a result of it.

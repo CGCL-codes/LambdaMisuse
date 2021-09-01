@@ -1,0 +1,12 @@
+The first lambda removal was due to the interface being expanded to have a second method, so lambdas were no longer possible. (I suppose one could have passed a pair of lambdas, but putting them together in the same interface made more sense anyway. 
+
+The second was due to a future no longer being needed, so the result was returned directly rather than being chained to a prior future. 
+
+Neither was due to any bias against lambdas in general, just that they weren't applicable anymore. 
+
+The code in question needed changing in response to features being added.  
+
+Perhaps if the code block in question would best be factored out (e.g. either for re-use or it became large/complicated enough to merit its own class. There are also some cases where Java is too eager in its type erasure for lambdas and a concrete subclass is needed. But generally I'm very happy with lambdas finally got added to Java. 
+We are looking forward to your reply, and we promise that we will use the data for research purpose only.
+
+Where will I be able to read about your results?  

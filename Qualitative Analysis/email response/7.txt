@@ -1,0 +1,49 @@
+I suspect all three that you're asking about will end up being done as part of refactoring code. The purpose of the refactoring would be to improve abstractions, inject dependencies via constructors, and create unit tests where there were none before.
+
+I. The following lambda expression in CoreLoggingExecutors (lines 180-187) was refactored to be a static inner class to facilitate reuse and writing a unit test for it. The purpose of the refactoring would be to improve abstractions, inject dependencies via constructors, and create unit tests where there were none before.
+
+    RejectedExecutionHandler rejectedExecutionHandler = (r, executor) -> {
+      try {
+        blockingQueue.put(r);
+      } catch (InterruptedException ex) {
+        Thread.currentThread().interrupt(); // preserve the state
+        throw new RejectedExecutionException("interrupted", ex);
+      }
+    };
+
+...became the following inner class:
+
+  @VisibleForTesting
+  static class QueuingRejectedExecutionHandler implements RejectedExecutionHandler {
+
+    private final BlockingQueue<Runnable> blockingQueue;
+
+    private QueuingRejectedExecutionHandler(BlockingQueue<Runnable> blockingQueue) {
+      this.blockingQueue = blockingQueue;
+    }
+
+    @Override
+    public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+      try {
+        blockingQueue.put(r);
+      } catch (InterruptedException ex) {
+        Thread.currentThread().interrupt(); // preserve the state
+        throw new RejectedExecutionException("interrupted", ex);
+      }
+    }
+  }
+
+The reason was primarily to (a) reduce the number of constructors in CoreLoggingExecutors and (b) write unit tests (this class did not previously have any unit tests). CoreLoggingExecutorsTest was introduced in the pull request.
+
+II. CachePerfStatsTest (lines 91-91) was modified to use a mock of StatisticsClock instead of a lambda in order to define some Mockito stubbing:
+
+    when(statisticsClock.isEnabled())
+        .thenReturn(true);
+    when(statisticsClock.getTime())
+        .thenReturn(CLOCK_TIME);
+
+...which cannot be done on a lambda. The lambda was defining the StatisticsClock which is a FunctionalInterface so it's a small change just for stubbing in the test.
+
+III. VersionManager (lines 171-172) changed form from the lambda syntax to the method reference syntax which are actually equivalent. Most developers in this community prefer the method reference syntax form over the lambda syntax form.
+
+Let me know if you need further info on anything above.

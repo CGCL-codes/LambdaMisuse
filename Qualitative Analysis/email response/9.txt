@@ -1,0 +1,15 @@
+if you are talking about these changes ..
+
+- GenericTestUtils.waitFor(() -> service.isStarted(), 100, 3000);
++ GenericTestUtils.waitFor(service::isStarted, 100, 3000);
+
+> Why did you remove these lambda expressions? Are there any side effects or symptoms caused by these lambda expressions?
+The new code improves readability imho.
+
+>How did you find out that these lambda expressions are better to be removed? (through static analysis? testing? reported by end users? or by other means?)
+This specific one was from static analysis
+
+
+> Generally, are there any scenarios that you would avoid using lambda expressions?
+
+Yes, in performance critical code, and when the comprehension of code improves when lambda is improved.

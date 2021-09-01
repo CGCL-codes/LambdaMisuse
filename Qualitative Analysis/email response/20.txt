@@ -1,0 +1,5 @@
+Thanks for interest in the Apache POI codebase.  
+
+That lambda was removed because:
+1.  The classic code reads better IMO 
+2.  Usage of lamdas should be consistent . Most of the formula-evaluation code  is old-school Java and I'd like to keep it so. Lamda stands out and I believe this is the main reason it was refactored.

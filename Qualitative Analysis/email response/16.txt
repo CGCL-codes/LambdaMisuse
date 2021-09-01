@@ -1,0 +1,1 @@
+The reason of removing the lambda is that the code is useless in the test case. BTW, I love java lambda and I always encourages all contributors to use lambda as much as possible. 

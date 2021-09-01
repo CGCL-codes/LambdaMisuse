@@ -1,0 +1,1 @@
+The changes had nothing to do with removing or changing lambdas. It was about properly setting the user code class loader for certain method calls. Due to these changes it was no longer possible/needed to use a lambda at the places you referred to.

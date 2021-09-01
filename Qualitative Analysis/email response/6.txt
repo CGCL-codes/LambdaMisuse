@@ -1,0 +1,1 @@
+The lambda was removed because it was testing a condition that, following a refactor, was no longer present (code used to throw an Exception, now it returns null). There was no deeper motivation beyond that.

@@ -1,0 +1,20 @@
+Invoker.java handles invocation of remote calls against AWS S3
+https://github.com/apache/hadoop/blob/trunk/hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/Invoker.java
+
+Invoker.once() takes a clause, evaluates it and translates any returned AWS SDK exceptions into IOExceptions, including converting responses like 404 to FileNotFoundException.
+
+Invoker.retry() repeats invocations with exception-type-specific retry policy (auth failures => fail, FileNotFound brief retry for consistency, throttling, etc. And it does the translation of once()
+
+* Wrapping a once with a once, e.g. once(() -> once(()) -> something)) is pointless.
+* Wrapping a retry with a once, e.g. once(() -> retry(() -> something)) is pointless.
+* Wrapping a retry with a retry, e.g. retry(() -> retry(() -> something)) is dangerous and MUST NOT BE DONE.
+
+We don't have a way of automatically analysing the code and detecting these invocations as they may be happening deep inside a chain of method calls.
+
+What we do have is a set of Java language annotations (https://github.com/apache/hadoop/blob/trunk/hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/Retries.java) which methods are marked up as to declare their retry/translation policy.
+
+When changing code, we go through these to make sure we are being consistent, and update the @Retryies annotation of the calling methods to indicate what the aggregate policy now is.
+
+In the patch referenced, I removed the lamdaa presumably because I had changed the code which is being called and using retry/once was either superfluous or dangerous.
+
+Put differently: and there is a lot more to the use of lambda expressions in java than simply a way of doing for loops. We do make use of these other mechanisms -so when we remove l-expressions, we probably have good reasons related to correctness.

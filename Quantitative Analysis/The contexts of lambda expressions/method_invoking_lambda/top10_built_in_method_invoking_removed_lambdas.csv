@@ -1,0 +1,13 @@
+fmethod,removed,percentage,kept,percentage
+java.lang.Iterable#forEach,86,13.69%,1182,12.66%
+java.util.stream.Stream#map,53,8.44%,1304,13.96%
+java.util.Map#computeIfAbsent,48,7.64%,428,4.58%
+java.util.Optional#ifPresent,44,7.01%,195,2.09%
+java.util.stream.Stream#forEach,33,5.25%,464,4.97%
+java.util.stream.Stream#filter,33,5.25%,1332,14.26%
+java.util.stream.Collectors#toMap,28,4.46%,440,4.71%
+java.util.Map#forEach,25,3.98%,328,3.51%
+java.util.concurrent.ExecutorService#submit,23,3.66%,242,2.59%
+java.util.Optional#map,22,3.50%,141,1.51%
+java.util.stream.IntStream#forEach,15,2.39%,139,1.49%
+resolved buitl-in method invoking lambdas,628,100.00%,9339,100.00%

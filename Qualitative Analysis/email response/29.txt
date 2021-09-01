@@ -1,0 +1,3 @@
+The interface that the anonymous class implements is no longer a functional interface and therefore it is required. Otherwise I would have kept it as a lambda. 
+
+You might want to update your static analysis tool that detects and sends this email to exclude that case :) 

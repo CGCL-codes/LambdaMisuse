@@ -1,0 +1,1 @@
+Is it possible to replace the code here to a lambda expression? I implemented two methods of the PublishContext interface.

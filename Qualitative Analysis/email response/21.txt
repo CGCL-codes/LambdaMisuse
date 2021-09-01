@@ -1,0 +1,67 @@
+Thanks for the question and for pointing out the issue.
+
+This change was made a while ago, and I don't remember the details. At first glance, it seems like removing the expression might be an error. To check, I just went back and applied the original code to the function, which reminded me of the core issue: exceptions. Consider this revised code:
+
+    public void removeHivePluginFrom(Iterable<Drillbit> drillbits) {
+      try {
+        drillbits.forEach(bit -> bit.getContext().getStorage().remove(pluginName));
+      } catch (StoragePluginRegistry.PluginException e) {
+        throw new RuntimeException("Failed to remove Hive storage plugin for drillbits", e);
+      }
+    }
+
+We get this error: Unhandled exception type StoragePluginRegistry.PluginException
+
+We cannot throw a checked exception from within a lambda. So, I suspect that, rather than fiddling with the code to make exceptions work with lambdas, I took the simple route: just use a loop.
+
+Playing with the code just now, I noticed that the catch clause throws an unchecked exception, so it turns out I could have rewritten the code in this case to:
+
+    public void removeHivePluginFrom(Iterable<Drillbit> drillbits) {
+      drillbits.forEach(bit -> {
+        try {
+          bit.getContext().getStorage().remove(pluginName);
+        } catch (PluginException e) {
+          throw new RuntimeException("Failed to remove Hive storage plugin for drillbits", e);
+        }
+      });
+    }
+
+However, if I'd wanted to throw the PluginException, which is done elsewhere, I'd have had to wrap that exception in a RuntimeException (as done here) then immediately unwrap it outside the lambda to throw the checked exception. That gets rather ugly:
+
+    public void removeHivePluginFrom(Iterable<Drillbit> drillbits) throws PluginException {
+      try {
+        drillbits.forEach(bit -> {
+          try {
+            bit.getContext().getStorage().remove(pluginName);
+          } catch (PluginException e) {
+            throw new RuntimeException("Failed to remove Hive storage plugin for drillbits", e);
+          }
+        });
+      } catch (RuntimeException e) {
+        throw (PluginException) e.getCause();
+      }
+    }
+
+Is there a simpler solution? I'm not a lambda expert, so perhaps there is one.
+
+All in all, this may be a case where removing things makes for a simpler solution. See this article. Of all of these, the non-lambda version in the PR is simplest:
+
+    public void removeHivePluginFrom(Iterable<Drillbit> drillbits) {
+      try {
+        for (Drillbit drillbit : drillbits) {
+          drillbit.getContext().getStorage().remove(pluginName);
+        }
+      } catch (PluginException e) {
+        throw new RuntimeException("Failed to remove Hive storage plugin for drillbits", e);
+      }
+    }
+
+Or, if I'd wanted to throw the PluginException:
+
+    public void removeHivePluginFrom(Iterable<Drillbit> drillbits) throws PluginException {
+        for (Drillbit drillbit : drillbits) {
+          drillbit.getContext().getStorage().remove(pluginName);
+        }
+     }
+
+The general rule is to use lambdas when they make the code simpler. But, don't be dogmatic: don't use them if you must add extra cruft to work around limitations. Use the right tool for the job. KISS.

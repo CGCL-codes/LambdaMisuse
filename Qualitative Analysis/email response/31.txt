@@ -1,0 +1,4 @@
+Awesome work you are doing and thanks for reaching out.
+
+I removed the lambda as it went to big. I generally dislike long lambdas due to bad readability. Ideally I use only single line lambdas without brackets.
+And I found this during a refactoring I did.

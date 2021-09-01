@@ -1,0 +1,6 @@
+1. This is not a very good example, as I had to simply reference the object created in this lambda in another place in the code, that's why I had to extract the creation of this object outside of the lambda.
+2. By other means.
+3. I only like to use lambdas/method references in a very simple cases, as they have two major drawbacks for me
+  - they are working against self documenting code principles, as lambda functions are missing function/method name
+  - they are often annoying when debugging step by step inside an IDE compared to imperative programming. Especially in cases like this:
+     collection.stream().flatMap(...).filter(...).map(...).collect(...)

@@ -1,0 +1,4 @@
+Please find my replies to questions in order.
+The change makes the code more readable.
+The change I think was suggested by IntelliJ.
+In case the code snippet is large or if affects readability of code.

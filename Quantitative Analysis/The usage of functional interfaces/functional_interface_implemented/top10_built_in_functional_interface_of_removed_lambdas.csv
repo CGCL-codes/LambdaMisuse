@@ -1,0 +1,12 @@
+functional interface,removed,percentage,kept,percentage
+java.util.function.Function,365,30.72%,3099,24.16%
+java.util.function.Consumer,304,25.59%,2832,22.08%
+java.lang.Runnable,125,10.52%,1341,10.45%
+java.util.function.Supplier,81,6.82%,922,7.19%
+java.util.function.Predicate,80,6.73%,1972,15.37%
+java.util.function.BiConsumer,63,5.30%,544,4.24%
+java.util.concurrent.Callable,27,2.27%,377,2.94%
+java.util.function.BiFunction,23,1.94%,317,2.47%
+java.util.Comparator,17,1.43%,171,1.33%
+java.util.function.UnaryOperator,17,1.43%,44,0.34%
+resolved built-in functional interface of removed lambdas,1188,100.00%,12828,100.00%

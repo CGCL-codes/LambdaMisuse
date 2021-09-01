@@ -1,0 +1,9 @@
+These commits are from quite a while ago, so I can't remember the exact motivation but I'll try my best to answer.
+Why did you remove these lambda expressions? Are there any side effects or symptoms caused by these lambda expressions?
+I removed these as part of larger refactors. I don't think there was any particular reason I wanted to remove lambda expressions.
+How did you find out that these lambda expressions are better to be removed? (through static analysis? testing? reported by end users? or by other means?)
+See above.
+Generally, are there any scenarios that you would avoid using lambda expressions?
+I think the only case would be if I'm concerned that a lambda expression encapsulates too much logic, and it would be easier to follow the code if broken out into a named function, or refactored some other way.
+
+What I mean by "easier to follow" is that the code is more readable, meaning it's easier for someone reading the code for the first time to understand what it's trying to do. Often you can have a lot of fun creating really complex "one-liners" with lambda expressions, but you pay a cost in that others reading the code (or even yourself in the future) won't be able to understand what it's trying to do. That is the kind of scenario where I avoid lambda expressions.

@@ -1,0 +1,12 @@
+"Why did you remove this lambda expression? Are there any side effects or symptoms caused by this lambda expression?"
+Please open https://issues.apache.org/jira/browse/YARN-10642 and read the description and comments. There is a race condition LinkedBlockingQueue.LBQSpliterator.forEachRemaining() which does not handle a special case, but it is handled in the old iterator code (I think it's when p == p.next, but I haven't deeply analyzed this). This can cause a deadlock in multithreaded applications, so it's severe. The Hadoop contributor said that this has been fixed in later JDK versions.
+
+"How did you find out that this lambda expression is better to be removed?"
+It was detected and debugged by the Hadoop contributor "zhengchenyu". I believe this was not a 5 minute task, because the last place where I'd look for bugs is the JDK code itself. But this is not unheard of - others have seen Java issues with Kerberos-related code, HttpClient, etc. 
+
+"Generally, are there any scenarios that you would avoid using lambda expressions?"
+For the most part, I like lambda stuff. However, in another JIRA ticket, I recommended rewriting a for loop to lambdas and I'm not sure whether the end result is really *that* better:
+https://issues.apache.org/jira/browse/YARN-10692?focusedCommentId=17303542&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-17303542
+(see patch v2 for the loop)
+
+At the end of the day, it's a tool which is often great, but should not be used just for the sake of using it (which, in my opinion, happens way too often in programming).

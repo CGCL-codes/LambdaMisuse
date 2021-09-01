@@ -1,0 +1,3 @@
+I’m guessing this is automated, but it was during a bug fix for some test code. The lambda was just a consumer to allow setting up for tests.
+
+On removal, only for pragmatic reasons - e.g. if real world performance benchmarks showed it as slower, or it caused GC to hold on to objects longer.

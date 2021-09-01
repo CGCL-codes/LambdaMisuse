@@ -1,0 +1,21 @@
+Hi, it'd be great if you could provide a link to your research project or group for me to have visibility over who I'm replying to. In any case you're not asking for any confidential information so I see no harm in answering :)
+
+1. I removed the lambda expression upon request of the team managing the open source project for which I was helping with. Java streams involve instantiation of additional new objects that will need to be garbage collected after their execution. The team is seeking maximum performance for their streaming project so they prefer conventional for and while loops over streams as those do not involve object instantiations.
+
+2. It's debatable whether it's better to remove the lambda expression or not, a single additional object creation is unlikely to cause overhead whereas the expressivity achieved with lambdas is advantageous. I only removed the lambda expression upon request from the team in charge of the project. I suppose they'll have done their research to justify the avoidance of streams.
+
+3. On a JVM with memory constraints or in a code base where the streams are going to be instantiated a comparable number of times to other objects one might consider replacing lambdas for normal for loops to avoid using extra memory resources. Heavy numerical calculations might be an example, or as in the project mentioned above a streaming platform. Another case where I might consider avoiding streams + lambdas are scenarios where I need to change state of the items in the stream while still maintaining a reference to the original item or where the lambda expression gets too complicated. Ex:
+
+myStream.stream()
+.map(i -> Pair.of(i, convert(i)))
+.forEach(i -> doSomething(i.left, i.right));
+
+It's doable but inconvenient and a for loop looks just as good
+
+for (Object i : myStream) {
+     doSomething(i, convert(i));
+}
+
+But these are a rare minority of occasions.
+
+Hope to have been resourceful!

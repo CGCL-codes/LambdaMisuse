@@ -1,0 +1,7 @@
+Since the project is an open source project, I would prefer to respond
+in the public community, for the benefit of all community members who
+may have similar questions. So, if you wish me to respond, feel free
+to ask on the pull request itself
+(https://github.com/apache/accumulo/pull/892) or on our developer
+mailing list (found at the project's website,
+https://accumulo.apache.org).

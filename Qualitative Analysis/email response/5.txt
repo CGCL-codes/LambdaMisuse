@@ -1,0 +1,7 @@
+We did have problems when using lambda expression and shade plugin together. 
+We have to avoid using lambda expressions to workaround this. 
+
+There are more information in the issues:
+https://issues.apache.org/jira/browse/FLINK-20147
+https://issues.apache.org/jira/browse/FLINK-18006
+https://issues.apache.org/jira/browse/MSHADE-260

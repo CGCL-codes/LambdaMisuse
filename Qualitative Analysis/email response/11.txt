@@ -1,0 +1,5 @@
+The expression was part of a stream processing expression. Streams do not provide a convenient mechanism for logic branch processing which was needed in this case. I could have found a stream/lambda based solution but it would have been more awkward.
+
+Experience and testing proved that some branch logic was required to handle certain cases.
+
+As stated, branch logic processing is hard to accomplish with existing stream processing mechanisms in Java. The degree of awkwardness to implement certain logic for me is a criteria for using lambda expressions. If the ROI of using the expression is too low then best to avoid it.

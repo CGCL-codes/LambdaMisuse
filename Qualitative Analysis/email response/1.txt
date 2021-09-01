@@ -1,0 +1,4 @@
+Evils of automated code analysis =)
+
+Lambda caused no harm in that case. It was ordinary code change driven
+by project-specific functional requirements.

@@ -1,0 +1,5 @@
+Thanks for your email.
+I am a big fan of Lambda and I don’t see any issues with it. I have used it as much as I could.
+
+The commit mentioned by you is not authored by me, meaning I have just helped a contributor (Zheng Wang) to commit his PR because I have commit access in apache/hbase git repo whereas the contributor didn’t have commit access at that time.
+As far as I know, there was no specific reason behind Lamda's removal but one basic condition was required to be added which perhaps lead to it's removal to better fit with the condition.

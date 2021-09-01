@@ -1,0 +1,7 @@
+FlinkExecutableStageFunction.java, L257-L268: There were two identical lambda expressions in separate classes, so I refactored them into a method to reduce code duplication.
+
+SparkSideInputReader.java, L49-L49: An upstream API changed such that lambda expressions could no longer be used (specifically, "MultimapView" was no longer a functional interface, since it added a second abstract method).
+
+DefaultExecutableStageContext.java, L108-L116: This previously shared class needed to be split into two separate classes. So the lambda was not actually removed, it was merely cut-and-pasted elsewhere.
+
+Good luck with your research.

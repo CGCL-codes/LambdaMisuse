@@ -1,0 +1,55 @@
+I don't have problems with lambda expressions; my main issue with it in java are
+
+1. checked exceptions make the java.utils lambda stuff unusable for the hadoop codebase where, from the outset, all interfaces have been declared as raising IOExceptions
+2. fear of scaring people off the more complex higher order stuff.
+3. type inference in java 8 is approximately nonexistent; even in scala it's not on a par with Milner's work in Standard ML.
+
+At a guess
+ 
+https://github.com/apache/hadoop/commit/617af28e80774249b0a52006ca70a4bf0b14451b#diff-a9b9efcd8ab6fd4d5a0129949bf66c079f2f4a216ecbd02121e93eba161688e0L99&nbsp (OperationCostValidator.java, L99-L101)
+
+
+there was enough complexity there that a for loop over the enum was less complex.
+
+Note this PR is a follow on to https://github.com/apache/hadoop/pull/2323, HADOOP-16830. Add public IOStatistics API.
+
+This added a whole new module for functional programming, a big chunk of which is "workaround the fact that java utils stuff can't handle checked exceptions"
+
+https://github.com/apache/hadoop/tree/trunk/hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/functional
+
+Particularly a set of higher order stuff for the long-extant remote iterators
+https://github.com/apache/hadoop/blob/trunk/hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/functional/RemoteIterators.java
+
+and a fair amount of bridging stuff
+https://github.com/apache/hadoop/blob/trunk/hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/functional/FutureIO.java
+
+And if you look at the actual goal of the work: allow hadoop filesystem classes (filesystems, streams, iterators) to serve up statistics, it's built on maps of functions, a detail kept hidden from most users/uses, but there for the advanced games for people who want to have fun.
+https://github.com/apache/hadoop/tree/trunk/hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/fs/statistics/impl
+
+
+ 
+https://github.com/apache/hadoop/commit/e3c08f285a6ac02f51ddf0007db76fc3da7ec372#diff-69ea856e0e7b4bf079ee90a3baae7b469cd88bdcf9dfd4975e0a3b18dd892134L156&nbsp (MultiObjectDeleteSupport.java, L156-L157)
+
+
+No reason; again, probably got complicated enough for what was really a simple bit of procedural code.
+
+ 
+https://github.com/apache/hadoop/commit/5092ea62ecbac840d56978a31bb11cfc14c6fe83#diff-80c0bea9c35c492ac4463fa4705afc8f0843190b0d32ce73bc699164d72aa9ceL219&nbsp (ITestS3AEncryptionSSEC.java, L219-L221)
+
+
+intercept/3 is part of LambdaTestUtils; clearly derivative of Scalatest.intercept, except for (a) the ability to loop waiting for eventual consistency (b) the ability to declare a string value in the error message. 
+
+https://github.com/apache/hadoop/blob/trunk/hadoop-common-project/hadoop-common/src/test/java/org/apache/hadoop/test/LambdaTestUtils.java
+ 
+If they are removed from a test it means "we didn't need to test it any more"
+
+If you look at the history of intercept/3 you can see that we added it in the time of Java 7; the hadoop test code is where we play with stuff before adding it to production code where performance and the need to to maintain APIs for many years matter. LambdaTestUtils came in with Callable with a goal of radical simplification once we moved to java 8 and "real" lambda expressions.
+
+https://github.com/apache/hadoop/blob/trunk/hadoop-common-project/hadoop-common/src/test/java/org/apache/hadoop/test/LambdaTestUtils.java
+As stated "I have no problem with functional programming other than java's exception model and a goal of keeping things simple enough that even people who haven't had to prove the correctness of higher-order FP code aren't afraid to use/maintain it. And I wish we didn't have checked exceptions"
+
+And as you can see from the code, the fact I'm adding higher-order stuff shows I'm prepared to put the effort in to address the issues
+
+I hope this helps. 
+
+Do send me a copy of any paper you write.

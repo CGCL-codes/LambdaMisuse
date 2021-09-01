@@ -1,0 +1,1 @@
+intellij recommended that. I think it saves some unnecessary object allocation and indirection at runtime

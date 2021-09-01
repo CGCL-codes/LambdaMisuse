@@ -1,0 +1,15 @@
+I am not the person who made the changes, but I can guess the possible reasons that I may share with you, and I would be appreciate if you can share your findings of the subject.
+Generally, I would replace lambda expressions in the following situations:
+1. The lambda expression is too long (about the size of a screen or more than 20 lines). It is a common practice to extract long code segments in a function as sub-functions, so I will not explain it further.
+2. The code in the lambda expression is hard to understand and thus needs a name. Sometimes, a simple name can help understanding the code significantly, for the concern of other maintainers, a proper name is usually necessary.
+3. Inheritance is necessary. In some cases, the extension of a class need to rewrite the code segment slightly but not all. So you cannot use lambda expression as it cannot be inherited. This is more important in open-source projects, because if you allow others to modify your code in an elegant way, there is a larger chance that your work will be spread.
+4. The same logic is used in other places. You cannot refer to the lambda expression from other classes, so you must make it an explicit function for code reusing.
+5. Unfaithful in the compiler optimization. How to optimize old-fashioned codes is well-studied, but when it comes to the new language features like lambda expression, I am not sure whether the compiler can do as well as named functions. So when performance is an urgent concern, I tend not to use lambda expressions. 
+
+One example is codes involve mathematical operations especially bit operations.
+
+For example, if you use lambda expression to implement the Fourier transformation or even more complicated transformations, at the first glance, the reader will think "what the hell is going on"; but if you just name it "FourierTransform", your purpose will be very clear, and even if the reader does not know a thing about the transformation, he can google it and still gets a good understanding. This may not be a very good example because the Fourier transformation is rather readable and often too long to be a lambda expression. Consider the lambda expression: (x,y) -> {x=x^y; y=x^y; x=x^y; return (x,y)}, it surprisingly equals to (x,y) -> (y,x) or swap(x,y), however, not all expressions can be reduced to a simple form, so a good name is sometimes necessary.
+
+Of course this can also be achieved by using comments. But comments are not reserved in the compiled codes, so when other reverse-engineer the compiled codes, the purpose is still not clear. And when the stack traces are printed, you will only see something like "somePacakge.someClass.lambda$1", which is not so intuitive at the first sight. 
+
+Still, using names or comments is more about personal code style than other concerns. I personally prefer names when they can be concluded within 5 or 6 words, and turn to comments when the explanation is wordy.

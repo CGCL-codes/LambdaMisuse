@@ -1,0 +1,2 @@
+In many cases lambda methods don't provide enough information for automatic type extraction when Java generics are involved.An easy workaround is to use an (anonymous) class instead that implements the interface.
+Otherwise the type has to be specified explicitly using type information (special flink object)

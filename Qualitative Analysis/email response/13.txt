@@ -1,0 +1,1 @@
+In this case, a second method with no default implementation was added to the interface that the lambda was implementing. So using a lambda was no longer possible.

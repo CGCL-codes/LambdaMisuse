@@ -1,0 +1,6 @@
+This is the revert commit in HADOOP-14556. I've reverted this because
+it contains the wrong patch from HADOOP-16018 and causes javadoc
+error.
+https://issues.apache.org/jira/browse/HADOOP-14556?focusedCommentId=16736752&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-16736752
+
+I personally like lambda expressions :)

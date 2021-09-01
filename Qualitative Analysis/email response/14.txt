@@ -1,0 +1,6 @@
+it is changed because of the logic process is changed.
+
+But, something that will prevent me using Lambda:
+1. hard to debug. 
+2. complex handling for the exception.
+3. I do not know whether it brings performance problems (e.g., for(int i=0; I <1000; i++) -> IntStream.range(1,10000).foreach() )
